@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-inter: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  background: linear-gradient(180deg, #fafafa 0%, #f4f4f5 100%);
+  color: #18181b;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+dark body {
+  background: linear-gradient(180deg, #09090b 0%, #18181b 100%);
+  color: #fafafa;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d4d4d8;
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #3f3f46;
+}
+
+/* Glass effect */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark .glass {
+  background: rgba(24, 24, 27, 0.7);
+  border: 1px solid rgba(63, 63, 70, 0.3);
+}
+
+/* Glow effect for live indicator */
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 5px #22c55e, 0 0 10px #22c55e;
+  }
+  50% {
+    box-shadow: 0 0 20px #22c55e, 0 0 30px #22c55e;
+  }
+}
+
+.live-indicator {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* Typography */
+.prose-custom h1, .prose-custom h2, .prose-custom h3 {
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+.prose-custom p {
+  line-height: 1.75;
+}
+
+.prose-custom code {
+  background: rgba(0, 0, 0, 0.05);
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+.dark .prose-custom code {
+  background: rgba(255, 255, 255, 0.1);
+}
