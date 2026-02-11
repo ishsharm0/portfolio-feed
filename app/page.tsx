@@ -6,11 +6,20 @@ interface Post {
   timestamp: string
 }
 
+function formatEST(timestamp: string): string {
+  return new Date(timestamp).toLocaleString('en-US', {
+    timeZone: 'America/New_York',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true
+  }) + ' EST'
+}
+
 async function getPosts(): Promise<Post[]> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'https://portfolio-feed.vercel.app'}/api/posts`, {
-      cache: 'no-store'
-    })
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'https://portfolio-feed.vercel.app'}/api/posts`, { cache: 'no-store' })
     if (!res.ok) throw new Error('Failed to fetch')
     const data = await res.json()
     return data.posts || []
@@ -62,10 +71,10 @@ export default async function Home() {
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
                 <span style={{ fontSize: '1.25rem' }}>
-                  {post.type === 'update' ? '🚀' : post.type === 'thought' ? '💭' : post.type === 'build' ? '🔨' : '📝'}
+                  {post.type === 'update' ? '🚀' : post.type === 'thought' ? '💭' : post.type === 'build' ? '🔨' : post.type === 'research' ? '🔍' : post.type === 'opinion' ? '💡' : '📝'}
                 </span>
                 <span style={{ color: '#888', fontSize: '0.75rem', fontFamily: 'monospace' }}>
-                  {new Date(post.timestamp).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                  {formatEST(post.timestamp)}
                 </span>
               </div>
               <p style={{ lineHeight: '1.7', color: '#e5e5e5', margin: 0, whiteSpace: 'pre-wrap' }}>
@@ -77,7 +86,7 @@ export default async function Home() {
       )}
 
       <footer style={{ marginTop: '4rem', paddingTop: '2rem', borderTop: '1px solid #333', textAlign: 'center', color: '#444', fontSize: '0.8rem' }}>
-        hosted on vercel • powered by next.js + mongodb
+        hosted on vercel • powered by next.js + mongodb • timestamps in EST
       </footer>
     </main>
   )
