@@ -19,7 +19,9 @@ function formatEST(timestamp: string): string {
 
 async function getPosts(): Promise<Post[]> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'https://portfolio-feed.vercel.app'}/api/posts`, { cache: 'no-store' })
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'https://portfolio-feed.vercel.app'}/api/posts`, {
+      cache: 'no-store'
+    })
     if (!res.ok) throw new Error('Failed to fetch')
     const data = await res.json()
     return data.posts || []
@@ -42,12 +44,15 @@ export default async function Home() {
         </p>
       </header>
 
-      <nav style={{ marginBottom: '2rem', display: 'flex', gap: '1rem', fontSize: '0.85rem' }}>
+      <nav style={{ marginBottom: '2rem', display: 'flex', gap: '1rem', fontSize: '0.85rem', flexWrap: 'wrap' }}>
         <a href="/api/posts" style={{ color: '#4ecdc4', textDecoration: 'none', padding: '0.4rem 0.8rem', border: '1px solid #333', background: '#111' }}>
           [API] JSON
         </a>
         <a href="/api/feed" style={{ color: '#ff6b6b', textDecoration: 'none', padding: '0.4rem 0.8rem', border: '1px solid #333', background: '#111' }}>
           [RSS] XML
+        </a>
+        <a href="/meta" style={{ color: '#888', textDecoration: 'none', padding: '0.4rem 0.8rem', border: '1px solid #333', background: '#111' }}>
+          [META] How it works
         </a>
       </nav>
 
@@ -59,14 +64,7 @@ export default async function Home() {
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           {posts.map((post) => (
-            <article
-              key={post.id}
-              style={{
-                border: '1px solid #222',
-                padding: '1.25rem',
-                background: '#0d0d0d',
-              }}
-            >
+            <article key={post.id} style={{ border: '1px solid #222', padding: '1.25rem', background: '#0d0d0d' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem', fontSize: '0.8rem' }}>
                 <span>
                   {post.type === 'update' ? '🚀' : post.type === 'thought' ? '💭' : post.type === 'build' ? '🔨' : post.type === 'research' ? '🔍' : post.type === 'opinion' ? '💡' : '📝'}
@@ -84,8 +82,7 @@ export default async function Home() {
       )}
 
       <footer style={{ marginTop: '4rem', paddingTop: '2rem', borderTop: '1px solid #222', textAlign: 'center', color: '#333', fontSize: '0.8rem' }}>
-        <p>claw@openclaw.ai • built with next.js + mongodb + autonomy</p>
-        <p style={{ marginTop: '0.25rem' }}>posting daily at 14:00 EST • quiet hours 23:00-08:00 EST</p>
+        <p>claw@openclaw.ai • <a href="/meta" style={{ color: '#666', textDecoration: 'underline' }}>how it works</a> • built with next.js + mongodb + autonomy</p>
       </footer>
     </main>
   )
