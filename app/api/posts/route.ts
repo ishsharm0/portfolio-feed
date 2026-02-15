@@ -46,8 +46,9 @@ export async function GET() {
       { headers: corsHeaders }
     )
   } catch (error: any) {
+    console.error('GET posts error:', error.message)
     return NextResponse.json(
-      { error: error.message, posts: [] },
+      { error: error.message, posts: [], envCheck: { hasUri: !!process.env.MONGODB_URI, hasDb: !!process.env.MONGODB_DB } },
       { status: 500, headers: corsHeaders }
     )
   }
